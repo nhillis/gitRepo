@@ -1,0 +1,251 @@
+diff --git a/.DS_Store b/.DS_Store
+index 758c41a..dadd79a 100644
+Binary files a/.DS_Store and b/.DS_Store differ
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index a125081..73e13ff 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -14,7 +14,7 @@
+         android:label="@string/app_name"
+         android:theme="@style/AppTheme" >
+         <activity
+-            android:name="com.example.finalproject.LoginActivity"
++            android:name="com.example.finalproject.MainActivity"
+             android:label="@string/app_name" >
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+@@ -22,12 +22,6 @@
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
+-        <activity 
+-            android:name=".RegisterActivity"
+-            android:label="Register New Account">
+-        </activity>
+-        <activity android:name=".MainActivity"
+-            android:label="Main Activity"></activity>
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
+diff --git a/res/layout/login_layout.xml b/res/layout/login_layout.xml
+index 1955512..7d3f1e6 100644
+--- a/res/layout/login_layout.xml
++++ b/res/layout/login_layout.xml
+@@ -48,7 +48,6 @@
+ 		        android:layout_height="wrap_content"
+ 		        android:text="Email" />
+ 		    <EditText 
+-		        android:id="@+id/email"
+ 		        android:layout_width="fill_parent"
+ 		        android:layout_height="wrap_content"
+ 		        android:layout_marginTop="5dp"
+@@ -59,7 +58,6 @@
+ 		        android:layout_height="wrap_content"
+ 		        android:text="Password"/>
+ 		    <EditText 
+-		        android:id="@+id/password"
+ 		        android:layout_width="fill_parent"
+ 		        android:layout_height="wrap_content"
+ 		        android:layout_marginTop="5dp"
+diff --git a/src/com/example/finalproject/DatabaseHandler.java b/src/com/example/finalproject/DatabaseHandler.java
+deleted file mode 100644
+index 79da89e..0000000
+--- a/src/com/example/finalproject/DatabaseHandler.java
++++ /dev/null
+@@ -1,53 +0,0 @@
+-package com.example.finalproject;
+-
+-import android.content.Context;
+-import android.database.sqlite.SQLiteDatabase;
+-import android.database.sqlite.SQLiteOpenHelper;
+-
+-public class DatabaseHandler extends SQLiteOpenHelper {
+-	
+-	private static final int DATABASE_VERSION = 1;
+-	private static final String DATABASE_NAME = "usersManager";
+-	private static final String TABLE_USERS = "users";
+-	
+-	private static final String KEY_ID = "User_id";
+-	private static final String KEY_NAME = "name";
+-	private static final String KEY_EMAIL = "email";
+-	private static final String KEY_PW = "pw";
+-	
+-	public DatabaseHandler(Context context) {
+-		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+-	}
+-	@Override
+-	public void onCreate(SQLiteDatabase db) {
+-		String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USERS + "(" 
+-				+ KEY_ID + "INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_NAME + "TEXT," 
+-				+KEY_EMAIL + " TEXT," + KEY_PW + " TEXT" + ")";
+-		db.execSQL(CREATE_USER_TABLE);
+-	}
+-
+-	@Override
+-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+-		onCreate(db);
+-	}
+-	public void addUser(User user) {
+-		
+-	}
+-	public User getUser(int id){
+-		
+-	}
+-	public List<User> getAllUsers() {
+-		
+-	}
+-	public int getListCount() {
+-		
+-	}
+-	public int updateUser(User user) {
+-		
+-	}
+-	public void deleteUser(User user) {
+-		
+-	}
+-
+-}
+diff --git a/src/com/example/finalproject/LoginActivity.java b/src/com/example/finalproject/LoginActivity.java
+index c6655ad..b22bb86 100644
+--- a/src/com/example/finalproject/LoginActivity.java
++++ b/src/com/example/finalproject/LoginActivity.java
+@@ -1,52 +1,7 @@
+ package com.example.finalproject;
+ 
+ import android.app.Activity;
+-import android.content.Intent;
+-import android.os.Bundle;
+-import android.view.View;
+-import android.widget.Button;
+-import android.widget.EditText;
+-import android.widget.TextView;
+-import android.widget.Toast;
+ 
+ public class LoginActivity extends Activity {
+-	Button mButton;
+-	EditText mEmailText, mPasswordText;
+-	String email, password;
+-	@Override
+-	public void onCreate(Bundle savedInstanceState) {
+-		super.onCreate(savedInstanceState);
+-		setContentView(R.layout.login_layout);
+-		
+-		mButton = (Button) findViewById(R.id.buttonLogin);
+-		mEmailText = (EditText) findViewById(R.id.email);
+-		mPasswordText = (EditText) findViewById(R.id.password);
+-		
+-		mButton.setOnClickListener(new View.OnClickListener() {
+-			
+-			
+-			public void onClick(View v) {
+-				
+-				email = mEmailText.getText().toString();
+-				password = mPasswordText.getText().toString();
+-				Toast.makeText(getBaseContext(), email, Toast.LENGTH_SHORT).show();
+-				Toast.makeText(getBaseContext(), password, Toast.LENGTH_SHORT).show();
+-			}
+-		});
+-		
+-		
+-		
+-		TextView registerScreen= (TextView) findViewById(R.id.register_link);
+-		
+-		registerScreen.setOnClickListener(new View.OnClickListener() {
+-			
+-			
+-			public void onClick(View v) {
+-				Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+-				startActivity(i);
+-			}
+-		});
+-		
+-		
+-	}
++
+ }
+diff --git a/src/com/example/finalproject/RegisterActivity.java b/src/com/example/finalproject/RegisterActivity.java
+deleted file mode 100644
+index 62db798..0000000
+--- a/src/com/example/finalproject/RegisterActivity.java
++++ /dev/null
+@@ -1,23 +0,0 @@
+-package com.example.finalproject;
+-
+-import android.app.Activity;
+-import android.os.Bundle;
+-import android.view.View;
+-import android.widget.TextView;
+-
+-public class RegisterActivity extends Activity {
+-	@Override
+-	public void onCreate(Bundle savedInstanceState) {
+-		super.onCreate(savedInstanceState);
+-		setContentView(R.layout.register_layout);
+-		
+-		TextView loginScreen = (TextView) findViewById(R.id.link_to_login);
+-		
+-		loginScreen.setOnClickListener(new View.OnClickListener() {
+-			
+-			public void onClick(View v) {
+-				finish();
+-			}
+-		});
+-	}
+-}
+diff --git a/src/com/example/finalproject/User.java b/src/com/example/finalproject/User.java
+deleted file mode 100644
+index 3f7a7f2..0000000
+--- a/src/com/example/finalproject/User.java
++++ /dev/null
+@@ -1,49 +0,0 @@
+-package com.example.finalproject;
+-
+-public class User {
+-	int _id;
+-	String _name;
+-	String _email;
+-	String _password;
+-	
+-	public User() {
+-		
+-	}
+-	
+-	public User(int id, String name, String email, String password) {
+-		this._id = id;
+-		this._name = name;
+-		this._email = email;
+-		this._password = password;
+-	}
+-	public User(String name, String email, String password) {
+-		this._name = name;
+-		this._email = email;
+-		this._password = password;
+-	}
+-	
+-	public int getID() {
+-		return this._id;
+-	}
+-	public void setID(int id) {
+-		this._id = id;
+-	}
+-	public String getName() {
+-		return this._name;
+-	}
+-	public void setName(String name) {
+-		this._name = name;
+-	}
+-	public String getEmail() {
+-		return this._email;
+-	}
+-	public void setEmail(String email) {
+-		this._email = email;
+-	}
+-	public String getPassword() {
+-		return this._password;
+-	}
+-	public void setPassword(String password) {
+-		this._password = password;
+-	}
+-}
