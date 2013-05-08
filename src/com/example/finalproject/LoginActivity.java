@@ -29,8 +29,13 @@ public class LoginActivity extends Activity {
 				
 				email = mEmailText.getText().toString();
 				password = mPasswordText.getText().toString();
-				Toast.makeText(getBaseContext(), email, Toast.LENGTH_SHORT).show();
-				Toast.makeText(getBaseContext(), password, Toast.LENGTH_SHORT).show();
+				
+				
+				DatabaseHandler db = new DatabaseHandler(getBaseContext());
+				
+				if(db.getListCount() == 1) {
+					Toast.makeText(getBaseContext(), "login", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 		
